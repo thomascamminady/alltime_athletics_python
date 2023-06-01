@@ -2,18 +2,23 @@
 alltime_athletics_python
 ========================
 
+Run
+-------
+Download all data via ``poetry run python alltime_athletics_python/main.py parse "./data"``
 
 
 
 
-
-Install
+Development
 --------
 To set up the project, simply run
 
 .. code-block:: bash
 
    make init
+
+
+
 
 
 Credits
