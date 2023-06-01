@@ -1,6 +1,8 @@
 ========================
 alltime_athletics_python
 ========================
+Scrapes http://www.alltime-athletics.com
+
 
 Run
 -------
