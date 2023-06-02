@@ -14,6 +14,8 @@ If you installed this package from PyPI_, run
 
    from alltime_athletics_python.main import parse
    parse()
+   
+Note that ``parse()`` reads data from Alltime Athletics **AS IS**. You will definitely need to do some postprocessing.
 
 
 Development
