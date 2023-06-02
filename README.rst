@@ -8,7 +8,7 @@ Run
 -------
 Download all data via ``poetry run python alltime_athletics_python/main.py parse "./data"``
 
-If you installed this package from PyI_, run
+If you installed this package from PyPI_, run
 
 .. code-block:: python
 
@@ -31,8 +31,14 @@ To set up the project, simply run
 Credits
 -------
 
+This tool does not take credit for the amazing effort by Peter Larsson, who compiles Alltime Athletics (link_).Alltime Athletics is an amazing collection of track and field results with a lot of work that must have gone into it. Thank you, Peter Larsson.
+
+The only functionality that this tool provides is to have an easier way to read data from Alltime Athletics.
+
+
 This package was created with Cookiecutter_ and `thomascamminady/cookiecutter-pypackage`_, a fork of the `audreyr/cookiecutter-pypackage`_ project template.
 
+.. _link: https://www.alltime-athletics.com
 ..  _PyPI: https://pypi.org/project/alltime-athletics-python/
 .. _Cookiecutter: https://github.com/audreyr/cookiecutter
 .. _`thomascamminady/cookiecutter-pypackage`: https://github.com/thomascamminady/cookiecutter-pypackage
