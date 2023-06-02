@@ -10,7 +10,7 @@ Download all data via ``poetry run python alltime_athletics_python/main.py parse
 
 If you installed this package from PyI_, run
 
-.. code-block:: bash
+.. code-block:: python
 
    from alltime_athletics_python.main import parse
    parse()
