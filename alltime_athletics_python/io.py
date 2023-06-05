@@ -83,19 +83,23 @@ def import_running_only_events(data_root: str = "./data") -> pl.DataFrame:
         ]
     )
 
-    return pl.concat(
+    df = pl.concat(
         [
             df_women_standard.pipe(pipe_reorder_and_select_subset_of_columns),
             df_men_standard.pipe(pipe_reorder_and_select_subset_of_columns),
             df_women_special.pipe(pipe_reorder_and_select_subset_of_columns),
             df_men_special.pipe(pipe_reorder_and_select_subset_of_columns),
         ]
-    ).sort(
+    )
+    # remove duplicates
+    df = df.filter(~df.is_duplicated())
+    return df.sort(
         "legality",
         "sex",
         "distance",
+        "event",
         "rank",
-        descending=[True, False, False, False],
+        descending=[True, False, False, False, False],
     )
 
 
