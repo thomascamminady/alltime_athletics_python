@@ -46,7 +46,7 @@ def download_data(folder: str = "./data"):
             content.df.to_csv(os.path.join(folder, content.folder, content.filename))
 
 
-def import_running_only_events(data_root: str = "data") -> pl.DataFrame:
+def import_running_only_events(data_root: str = "./data") -> pl.DataFrame:
     df_men = import_running_only_events_sex(
         data_root, pipe_rename_columns_names_men, "men"
     ).with_columns(pl.lit("men").alias("sex"))

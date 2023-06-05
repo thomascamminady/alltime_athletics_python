@@ -24,7 +24,7 @@ To read the processed data, run
 .. code-block:: python
 
    from alltime_athletics_python.io import import_running_only_events
-   df = import_running_only_events()
+   df = import_running_only_events("./data")
 
 
 Development
