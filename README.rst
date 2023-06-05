@@ -6,9 +6,18 @@ Scrapes http://www.alltime-athletics.com
 
 Run
 -------
-Download all data via ``poetry run python alltime_athletics_python/main.py parse "./data"``
+Download all data via ````
+.. code-block:: bash
+
+   poetry run python alltime_athletics_python/main.py parse "./data"
 
 
+To read the processed data, run
+
+.. code-block:: python
+
+   from alltime_athletics_python.io import import_running_only_events
+   df = import_running_only_events()
 
 
 Development
