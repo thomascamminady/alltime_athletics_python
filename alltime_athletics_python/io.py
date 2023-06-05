@@ -49,12 +49,12 @@ def download_data(folder: str = "./data"):
 
 
 def import_running_only_events(data_root: str = "./data") -> pl.DataFrame:
-    df_men = import_running_only_events_sex(
+    df_men = import_running_only_events_gender(
         data_root, pipe_rename_columns_names_men, "men"
-    ).with_columns(pl.lit("men").alias("sex"))
-    df_women = import_running_only_events_sex(
+    ).with_columns(pl.lit("male").alias("sex"))
+    df_women = import_running_only_events_gender(
         data_root, pipe_rename_columns_names_women, "women"
-    ).with_columns(pl.lit("women").alias("sex"))
+    ).with_columns(pl.lit("female").alias("sex"))
 
     return (
         pl.concat([df_women, df_men])
@@ -63,10 +63,10 @@ def import_running_only_events(data_root: str = "./data") -> pl.DataFrame:
     )
 
 
-def import_running_only_events_sex(
+def import_running_only_events_gender(
     data_root: str,
     pipe_rename_column_names: Callable[[pl.DataFrame], pl.DataFrame],
-    sex: str,
+    gender: str,
 ) -> pl.DataFrame:
     return pl.concat(
         [
@@ -86,17 +86,17 @@ def import_running_only_events_sex(
             .pipe(pipe_drop_unwanted_columns)
             .pipe(pipe_get_wr_strength_by_comparing_with_tenth)
             .pipe(pipe_convert_dates)
-            for event in get_running_only_files(data_root, sex)
+            for event in get_running_only_files(data_root, gender)
         ],
         how="diagonal",
     )
 
 
-def get_running_only_files(data_root: str, sex: str) -> list[str]:
+def get_running_only_files(data_root: str, gender: str) -> list[str]:
     return [
         f
         for f in glob.glob(  # Get all csv files recursively.
-            f"{data_root}/{sex}/standard/*/legal/0*.csv", recursive=True
+            f"{data_root}/{gender}/standard/*/legal/0*.csv", recursive=True
         )
         if (
             "metres" in f
