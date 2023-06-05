@@ -49,17 +49,56 @@ def download_data(folder: str = "./data"):
 
 
 def import_running_only_events(data_root: str = "./data") -> pl.DataFrame:
-    df_men = import_running_only_events_gender(
-        data_root, pipe_rename_columns_names_men, "men"
-    ).with_columns(pl.lit("male").alias("sex"))
-    df_women = import_running_only_events_gender(
-        data_root, pipe_rename_columns_names_women, "women"
-    ).with_columns(pl.lit("female").alias("sex"))
+    df_men_standard = import_running_only_events_gender(
+        data_root, pipe_rename_columns_names_men, "men", "standard"
+    ).with_columns(
+        [
+            pl.lit("male").alias("sex"),
+            pl.lit("standard").alias("legality"),
+        ]
+    )
+    df_women_standard = import_running_only_events_gender(
+        data_root, pipe_rename_columns_names_women, "women", "standard"
+    ).with_columns(
+        [
+            pl.lit("female").alias("sex"),
+            pl.lit("standard").alias("legality"),
+        ]
+    )
+    df_men_special = import_running_only_events_gender(
+        data_root, pipe_rename_columns_names_men, "men", "special"
+    ).with_columns(
+        [
+            pl.lit("male").alias("sex"),
+            pl.lit("special").alias("legality"),
+        ]
+    )
+    df_women_special = import_running_only_events_gender(
+        data_root, pipe_rename_columns_names_women, "women", "special"
+    ).with_columns(
+        [
+            pl.lit("female").alias("sex"),
+            pl.lit("special").alias("legality"),
+        ]
+    )
 
     return (
-        pl.concat([df_women, df_men])
+        pl.concat(
+            [
+                df_women_standard,
+                df_men_standard,
+                df_women_special,
+                df_men_special,
+            ]
+        )
         .pipe(pipe_reorder_and_select_subset_of_columns)
-        .sort("sex", "distance", "rank")
+        .sort(
+            "legality",
+            "sex",
+            "distance",
+            "rank",
+            descending=[True, False, False, False],
+        )
     )
 
 
@@ -67,6 +106,7 @@ def import_running_only_events_gender(
     data_root: str,
     pipe_rename_column_names: Callable[[pl.DataFrame], pl.DataFrame],
     gender: str,
+    event_type: str,
 ) -> pl.DataFrame:
     return pl.concat(
         [
@@ -86,17 +126,17 @@ def import_running_only_events_gender(
             .pipe(pipe_drop_unwanted_columns)
             .pipe(pipe_get_wr_strength_by_comparing_with_tenth)
             .pipe(pipe_convert_dates)
-            for event in get_running_only_files(data_root, gender)
+            for event in get_running_only_files(data_root, gender, event_type)
         ],
         how="diagonal",
     )
 
 
-def get_running_only_files(data_root: str, gender: str) -> list[str]:
-    return [
+def get_running_only_files(data_root: str, gender: str, event_type: str) -> list[str]:
+    files = [
         f
         for f in glob.glob(  # Get all csv files recursively.
-            f"{data_root}/{gender}/standard/*/legal/0*.csv", recursive=True
+            f"{data_root}/{gender}/{event_type}/*/legal/0*.csv", recursive=True
         )
         if (
             "metres" in f
@@ -109,3 +149,4 @@ def get_running_only_files(data_root: str, gender: str) -> list[str]:
         )
         and ("4x" not in f)
     ]
+    return files

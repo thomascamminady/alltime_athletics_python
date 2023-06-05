@@ -1,5 +1,7 @@
 import polars as pl
 
+from alltime_athletics_python.events import event_list
+
 
 def pipe_remove_invalid(df: pl.DataFrame) -> pl.DataFrame:
     return (
@@ -14,26 +16,8 @@ def pipe_remove_invalid(df: pl.DataFrame) -> pl.DataFrame:
 
 
 def pipe_get_event_distance(df: pl.DataFrame) -> pl.DataFrame:
-    def distance_mapping(event):
-        d = {
-            "200 metres": 200,
-            "marathon": 42195,
-            "1 Mile": 1609,
-            "1500 metres": 1500,
-            "50 km race walk": 50000,
-            "3000m steeplechase": 3000,
-            "400 metres": 400,
-            "5000 metres": 5000,
-            "20 km race walk": 20000,
-            "3000 metres": 3000,
-            "400m hurdles": 400,
-            "100 metres": 100,
-            "800 metres": 800,
-            "100m hurdles": 100,
-            "110m hurdles": 110,
-            "half-marathon": 21097.5,
-            "10000 metres": 10000,
-        }
+    def distance_mapping(event) -> float:
+        d = {event.name: event.distance for event in event_list}
         return d[event]
 
     return df.with_columns(  # get event distances
@@ -57,26 +41,8 @@ def pipe_get_percentage_wrt_world_record(df: pl.DataFrame) -> pl.DataFrame:
 
 
 def pipe_assign_sprint_middle_long_distance(df: pl.DataFrame) -> pl.DataFrame:
-    def assign(event):
-        d = {
-            "100m hurdles": "sprint",
-            "110m hurdles": "sprint",
-            "1500 metres": "middle distance",
-            "3000m steeplechase": "middle distance",
-            "1 Mile": "middle distance",
-            "20 km race walk": "long distance",
-            "200 metres": "sprint",
-            "100 metres": "sprint",
-            "half-marathon": "long distance",
-            "10000 metres": "long distance",
-            "5000 metres": "long distance",
-            "marathon": "long distance",
-            "3000 metres": "middle distance",
-            "50 km race walk": "long distance",
-            "800 metres": "middle distance",
-            "400 metres": "sprint",
-            "400m hurdles": "sprint",
-        }
+    def assign(event) -> str:
+        d = {event.name: event.distance_type for event in event_list}
         return d[event]
 
     return df.with_columns(
@@ -85,26 +51,8 @@ def pipe_assign_sprint_middle_long_distance(df: pl.DataFrame) -> pl.DataFrame:
 
 
 def pipe_assign_has_hurdles_or_not(df: pl.DataFrame) -> pl.DataFrame:
-    def assign(event):
-        d = {
-            "100m hurdles": True,
-            "110m hurdles": True,
-            "1500 metres": False,
-            "3000m steeplechase": True,
-            "1 Mile": False,
-            "20 km race walk": False,
-            "200 metres": False,
-            "100 metres": False,
-            "half-marathon": False,
-            "10000 metres": False,
-            "5000 metres": False,
-            "marathon": False,
-            "3000 metres": False,
-            "50 km race walk": False,
-            "800 metres": False,
-            "400 metres": False,
-            "400m hurdles": True,
-        }
+    def assign(event) -> bool:
+        d = {event.name: event.has_hurdles for event in event_list}
         return d[event]
 
     return df.with_columns(
@@ -114,25 +62,7 @@ def pipe_assign_has_hurdles_or_not(df: pl.DataFrame) -> pl.DataFrame:
 
 def pipe_assign_track_event_or_not(df: pl.DataFrame) -> pl.DataFrame:
     def assign(event):
-        d = {
-            "100m hurdles": True,
-            "110m hurdles": True,
-            "1500 metres": True,
-            "3000m steeplechase": True,
-            "1 Mile": True,
-            "20 km race walk": False,
-            "200 metres": True,
-            "100 metres": True,
-            "half-marathon": False,
-            "10000 metres": True,
-            "5000 metres": True,
-            "marathon": False,
-            "3000 metres": True,
-            "50 km race walk": False,
-            "800 metres": True,
-            "400 metres": True,
-            "400m hurdles": True,
-        }
+        d = {event.name: event.is_track for event in event_list}
         return d[event]
 
     return df.with_columns(pl.col("event").apply(lambda e: assign(e)).alias("on track"))
@@ -149,7 +79,7 @@ def pipe_fix_issue_with_half_marathon_distance(df: pl.DataFrame) -> pl.DataFrame
 
 def pipe_convert_time_to_seconds(df: pl.DataFrame) -> pl.DataFrame:
     def convert_time_to_seconds(time_string):
-        to_replace = ["A", "y", "+", "#", "a", "d", "´", "@", "p"]
+        to_replace = ["A", "y", "+", "#", "a", "d", "´", "@", "p", "m", "*", "e"]
         for r in to_replace:
             time_string = time_string.replace(r, "")
 
@@ -308,7 +238,7 @@ def pipe_assign_file_name(df: pl.DataFrame, file: str) -> pl.DataFrame:
 
 
 def pipe_drop_unwanted_columns(df: pl.DataFrame) -> pl.DataFrame:
-    should_be_dropped = ["3", "valid", "", "7"]
+    should_be_dropped = ["3", "valid", "", "7", "8", "9", "10"]
     columns = [c for c in should_be_dropped if c in df.columns]
     return df.drop(columns=columns)
 
@@ -360,6 +290,7 @@ def pipe_convert_dates(df: pl.DataFrame) -> pl.DataFrame:
 def pipe_reorder_and_select_subset_of_columns(df: pl.DataFrame) -> pl.DataFrame:
     return df.select(
         "event",
+        "legality",
         "distance",
         "sex",
         "rank",
