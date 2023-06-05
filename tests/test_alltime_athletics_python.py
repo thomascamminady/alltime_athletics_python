@@ -1,8 +1,7 @@
 """Tests for `alltime_athletics_python` package."""
+from alltime_athletics_python.io import import_running_only_events
 
 
-from alltime_athletics_python import __version__
-
-
-def test_version() -> None:
-    assert __version__ == "0.1.0"
+def test_reads_df_without_crashing():
+    df = import_running_only_events("./data")
+    assert df.shape[0] == 154594

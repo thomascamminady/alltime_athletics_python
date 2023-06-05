@@ -13,6 +13,7 @@ from alltime_athletics_python.pipes import (
     pipe_assign_has_hurdles_or_not,
     pipe_assign_sprint_middle_long_distance,
     pipe_assign_track_event_or_not,
+    pipe_convert_dates,
     pipe_convert_time_to_seconds,
     pipe_drop_unwanted_columns,
     pipe_fix_dtype,
@@ -24,6 +25,7 @@ from alltime_athletics_python.pipes import (
     pipe_remove_invalid,
     pipe_rename_columns_names_men,
     pipe_rename_columns_names_women,
+    pipe_reorder_and_select_subset_of_columns,
 )
 
 
@@ -54,7 +56,7 @@ def import_running_only_events(data_root: str = "./data") -> pl.DataFrame:
         data_root, pipe_rename_columns_names_women, "women"
     ).with_columns(pl.lit("women").alias("sex"))
 
-    return pl.concat([df_women, df_men])
+    return pl.concat([df_women, df_men]).pipe(pipe_reorder_and_select_subset_of_columns)
 
 
 def import_running_only_events_sex(
@@ -79,6 +81,7 @@ def import_running_only_events_sex(
             .pipe(pipe_fix_issue_with_half_marathon_distance)
             .pipe(pipe_drop_unwanted_columns)
             .pipe(pipe_get_wr_strength_by_comparing_with_tenth)
+            .pipe(pipe_convert_dates)
             for event in get_running_only_files(data_root, sex)
         ],
         how="diagonal",

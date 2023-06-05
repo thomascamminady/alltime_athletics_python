@@ -323,3 +323,59 @@ def pipe_get_wr_strength_by_comparing_with_tenth(df: pl.DataFrame) -> pl.DataFra
             )
         ).alias("percentage of 10th")
     )
+
+
+def pipe_convert_dates(df: pl.DataFrame) -> pl.DataFrame:
+    # make sure that date of births like 01.01.10 are parsed as 01.01.2010
+    return df.with_columns(
+        pl.when(pl.col("date of birth").str.split(".").list[2].cast(int) < 10)
+        .then(
+            pl.col("date of birth").str.split(".").list[0]
+            + "."
+            + pl.col("date of birth").str.split(".").list[1]
+            + "."
+            + "20"
+            + pl.col("date of birth").str.split(".").list[2]
+        )
+        .otherwise(
+            pl.col("date of birth").str.split(".").list[0]
+            + "."
+            + pl.col("date of birth").str.split(".").list[1]
+            + "."
+            + "19"
+            + pl.col("date of birth").str.split(".").list[2]
+        )
+    ).with_columns(
+        [
+            pl.col("date of birth").str.strptime(
+                pl.Date, format="%d.%m.%Y", strict=False
+            ),
+            pl.col("date of event").str.strptime(
+                pl.Date, format="%d.%m.%Y", strict=False
+            ),
+        ]
+    )
+
+
+def pipe_reorder_and_select_subset_of_columns(df: pl.DataFrame) -> pl.DataFrame:
+    return df.select(
+        "event",
+        "distance",
+        "sex",
+        "rank",
+        "rank in event",
+        "name",
+        "nationality",
+        "date of birth",
+        "result",
+        "wind",
+        "result seconds",
+        "date of event",
+        "location of event",
+        "distance type",
+        "has hurdles",
+        "on track",
+        # "percentage of wr",
+        # "percentage of 10th",
+        "file",
+    )
