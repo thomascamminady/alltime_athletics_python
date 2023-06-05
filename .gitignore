@@ -162,3 +162,4 @@ cython_debug/
 logs/
 data/
 alltime_athletics_python.code-workspace
+notebooks/
