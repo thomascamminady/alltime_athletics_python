@@ -6,19 +6,15 @@ Scrapes http://www.alltime-athletics.com
 
 Download
 -------
-Download all data via
-.. code-block:: bash
-
-   poetry run python alltime_athletics_python/main.py parse "./data"
 
 If you installed this package from PyPI_, run
 
 .. code-block:: python
 
-   from alltime_athletics_python.main import parse
-   parse()
+   from alltime_athletics_python.io import download_data
+   download_data()
 
-Note that ``parse()`` reads data from Alltime Athletics **AS IS**. You will definitely need to do some postprocessing.
+Note that ``download_data()`` reads data from Alltime Athletics **AS IS**. You will definitely need to do some postprocessing.
 
 Postprocessing
 -------
