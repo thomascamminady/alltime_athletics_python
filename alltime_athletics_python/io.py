@@ -79,26 +79,23 @@ def import_running_only_events(data_root: str = "./data") -> pl.DataFrame:
         [
             pl.lit("female").alias("sex"),
             pl.lit("special").alias("legality"),
+            pl.lit("").alias("wind"),
         ]
     )
 
-    return (
-        pl.concat(
-            [
-                df_women_standard,
-                df_men_standard,
-                df_women_special,
-                df_men_special,
-            ]
-        )
-        .pipe(pipe_reorder_and_select_subset_of_columns)
-        .sort(
-            "legality",
-            "sex",
-            "distance",
-            "rank",
-            descending=[True, False, False, False],
-        )
+    return pl.concat(
+        [
+            df_women_standard.pipe(pipe_reorder_and_select_subset_of_columns),
+            df_men_standard.pipe(pipe_reorder_and_select_subset_of_columns),
+            df_women_special.pipe(pipe_reorder_and_select_subset_of_columns),
+            df_men_special.pipe(pipe_reorder_and_select_subset_of_columns),
+        ]
+    ).sort(
+        "legality",
+        "sex",
+        "distance",
+        "rank",
+        descending=[True, False, False, False],
     )
 
 

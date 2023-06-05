@@ -106,12 +106,17 @@ def pipe_fix_dtype(df: pl.DataFrame) -> pl.DataFrame:
 
 def pipe_rename_columns_names_men(df: pl.DataFrame) -> pl.DataFrame:
     def decide_mapping_men(name, number_columns, mappings):
+        if "200m hurdles" in name:
+            return mappings[4]
+        if "300 metres" in name:
+            return mappings[5]
         if "half" in name:
             return mappings[2]
         if "1500" in name or "400m hurdles" in name:
             return mappings[3]
         if number_columns == 12:
             return mappings[0]
+
         return mappings[1]
 
     def get_mappings_men() -> list[dict[str, str]]:
@@ -146,6 +151,27 @@ def pipe_rename_columns_names_men(df: pl.DataFrame) -> pl.DataFrame:
                 "5": "rank in event",
                 "6": "location of event",
                 "8": "date of event",
+            },
+            {
+                "0": "rank",
+                "1": "result",
+                "2": "name",
+                "4": "nationality",
+                "5": "date of birth",
+                "6": "rank in event",
+                "7": "location of event",
+                "8": "date of event",
+            },
+            {
+                "0": "rank",
+                "1": "result",
+                "2": "wind",
+                "3": "name",
+                "4": "nationality",
+                "5": "date of birth",
+                "6": "rank in event",
+                "7": "location of event",
+                "10": "date of event",
             },
             {
                 "0": "rank",
@@ -167,7 +193,9 @@ def pipe_rename_columns_names_men(df: pl.DataFrame) -> pl.DataFrame:
 
 
 def pipe_rename_columns_names_women(df: pl.DataFrame) -> pl.DataFrame:
-    def decide_mapping_men(name, number_columns, mappings):
+    def decide_mapping_women(name, number_columns, mappings):
+        if "15k" in name or "20km" in name:
+            return mappings[3]
         if "half" in name:
             return mappings[2]
         # if "1500" in name or "400m hurdles" in name:
@@ -176,7 +204,7 @@ def pipe_rename_columns_names_women(df: pl.DataFrame) -> pl.DataFrame:
             return mappings[0]
         return mappings[1]
 
-    def get_mappings_men() -> list[dict[str, str]]:
+    def get_mappings_women() -> list[dict[str, str]]:
         return [
             {
                 "0": "rank",
@@ -213,18 +241,18 @@ def pipe_rename_columns_names_women(df: pl.DataFrame) -> pl.DataFrame:
                 "0": "rank",
                 "1": "result",
                 "2": "name",
-                "4": "nationality",
-                "5": "date of birth",
-                "6": "rank in event",
-                "7": "location of event",
+                "3": "nationality",
+                "4": "date of birth",
+                "5": "rank in event",
+                "6": "location of event",
                 "8": "date of event",
             },
         ]
 
-    mappings = get_mappings_men()
+    mappings = get_mappings_women()
 
     return df.with_columns([pl.col(c).cast(str) for c in df.columns]).rename(
-        mapping=decide_mapping_men(df["event"].unique()[0], len(df.columns), mappings)
+        mapping=decide_mapping_women(df["event"].unique()[0], len(df.columns), mappings)
     )
 
 
