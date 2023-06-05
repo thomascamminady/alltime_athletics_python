@@ -13,6 +13,7 @@ from alltime_athletics_python.pipes import (
     pipe_assign_has_hurdles_or_not,
     pipe_assign_sprint_middle_long_distance,
     pipe_assign_track_event_or_not,
+    pipe_compute_age_at_event,
     pipe_convert_dates,
     pipe_convert_time_to_seconds,
     pipe_drop_unwanted_columns,
@@ -21,6 +22,7 @@ from alltime_athletics_python.pipes import (
     pipe_get_event_distance,
     pipe_get_percentage_wrt_world_record,
     pipe_get_wr_strength_by_comparing_with_tenth,
+    pipe_give_same_name_to_100m_and_110m_hurdles,
     pipe_remove_all_null_columns,
     pipe_remove_invalid,
     pipe_rename_columns_names_men,
@@ -83,17 +85,22 @@ def import_running_only_events(data_root: str = "./data") -> pl.DataFrame:
         ]
     )
 
-    df = pl.concat(
-        [
-            df_women_standard.pipe(pipe_reorder_and_select_subset_of_columns),
-            df_men_standard.pipe(pipe_reorder_and_select_subset_of_columns),
-            df_women_special.pipe(pipe_reorder_and_select_subset_of_columns),
-            df_men_special.pipe(pipe_reorder_and_select_subset_of_columns),
-        ]
+    df = (
+        pl.concat(
+            [
+                df_women_standard.pipe(pipe_reorder_and_select_subset_of_columns),
+                df_men_standard.pipe(pipe_reorder_and_select_subset_of_columns),
+                df_women_special.pipe(pipe_reorder_and_select_subset_of_columns),
+                df_men_special.pipe(pipe_reorder_and_select_subset_of_columns),
+            ]
+        )
+        .pipe(pipe_compute_age_at_event)
+        .pipe(pipe_give_same_name_to_100m_and_110m_hurdles)
     )
     # remove duplicates
     df = df.filter(~df.is_duplicated())
-    return df.sort(
+
+    df = df.sort(
         "legality",
         "sex",
         "distance",
@@ -101,6 +108,8 @@ def import_running_only_events(data_root: str = "./data") -> pl.DataFrame:
         "rank",
         descending=[True, False, False, False, False],
     )
+
+    return df
 
 
 def import_running_only_events_gender(

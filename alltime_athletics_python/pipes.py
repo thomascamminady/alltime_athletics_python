@@ -338,3 +338,20 @@ def pipe_reorder_and_select_subset_of_columns(df: pl.DataFrame) -> pl.DataFrame:
         # "percentage of 10th",
         "file",
     )
+
+
+def pipe_compute_age_at_event(df: pl.DataFrame) -> pl.DataFrame:
+    return df.with_columns(
+        ((pl.col("date of event") - pl.col("date of birth")).dt.days() / 365).alias(
+            "age at event in years"
+        )
+    )
+
+
+def pipe_give_same_name_to_100m_and_110m_hurdles(df: pl.DataFrame) -> pl.DataFrame:
+    return df.with_columns(
+        pl.when(pl.col("event").is_in(["110m hurdles", "100m hurdles"]))
+        .then(pl.lit("100m/110m hurdles"))
+        .otherwise(pl.col("event"))
+        .alias("event")
+    )
