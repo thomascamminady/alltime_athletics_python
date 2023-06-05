@@ -1,7 +1,8 @@
 [tool.poetry]
 name = "alltime_athletics_python"
-version = "0.7.0"
-description = ""
+version = "0.8.0"
+description = "Scrapes and post-processes data from Alltime Athletics (website by Peter Larsson)"
+homepage= "https://github.com/thomascamminady/alltime_athletics_python"
 authors = ["Thomas Camminady <0milieux_member@icloud.com>"]
 
 [tool.poetry.dependencies]
