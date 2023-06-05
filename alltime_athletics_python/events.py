@@ -46,6 +46,6 @@ event_list: list[Event] = [
     Event("marathon", 42195, False, False, "long distance"),
     Event("50 km race walk", 50000, False, False, "long distance"),
     Event("100km road", 100000, False, False, "long distance"),
-    Event("One hour run", 0, True, False, "long distance"),
+    Event("One hour run", 3600, True, False, "long distance"),
     Event("5000 metres track walk", 5000, True, False, "long distance"),
 ]
