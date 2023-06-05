@@ -56,7 +56,11 @@ def import_running_only_events(data_root: str = "./data") -> pl.DataFrame:
         data_root, pipe_rename_columns_names_women, "women"
     ).with_columns(pl.lit("women").alias("sex"))
 
-    return pl.concat([df_women, df_men]).pipe(pipe_reorder_and_select_subset_of_columns)
+    return (
+        pl.concat([df_women, df_men])
+        .pipe(pipe_reorder_and_select_subset_of_columns)
+        .sort("sex", "distance", "rank")
+    )
 
 
 def import_running_only_events_sex(
