@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "alltime_athletics_python"
-version = "0.14.0"
+version = "0.15.0"
 description = "Scrapes and post-processes data from Alltime Athletics (website by Peter Larsson)"
 homepage= "https://github.com/thomascamminady/alltime_athletics_python"
 authors = ["Thomas Camminady <0milieux_member@icloud.com>"]
@@ -12,6 +12,7 @@ lxml = "^4.9.2"
 html5lib = "^1.1"
 rich = "^13.4.1"
 polars = "^0.18.0"
+ipywidgets = "^8.0.6"
 
 [tool.poetry.group.dev.dependencies]
 mypy = "^1.0.1"

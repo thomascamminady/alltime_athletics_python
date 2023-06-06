@@ -56,7 +56,7 @@ def import_running_only_events(data_root: str = "./data") -> pl.DataFrame:
     ).with_columns(
         [
             pl.lit("male").alias("sex"),
-            pl.lit("standard").alias("legality"),
+            pl.lit("standard").alias("event type"),
         ]
     )
     df_women_standard = import_running_only_events_gender(
@@ -64,7 +64,7 @@ def import_running_only_events(data_root: str = "./data") -> pl.DataFrame:
     ).with_columns(
         [
             pl.lit("female").alias("sex"),
-            pl.lit("standard").alias("legality"),
+            pl.lit("standard").alias("event type"),
         ]
     )
     df_men_special = import_running_only_events_gender(
@@ -72,7 +72,7 @@ def import_running_only_events(data_root: str = "./data") -> pl.DataFrame:
     ).with_columns(
         [
             pl.lit("male").alias("sex"),
-            pl.lit("special").alias("legality"),
+            pl.lit("special").alias("event type"),
         ]
     )
     df_women_special = import_running_only_events_gender(
@@ -80,7 +80,7 @@ def import_running_only_events(data_root: str = "./data") -> pl.DataFrame:
     ).with_columns(
         [
             pl.lit("female").alias("sex"),
-            pl.lit("special").alias("legality"),
+            pl.lit("special").alias("event type"),
             pl.lit("").alias("wind"),
         ]
     )
@@ -101,7 +101,7 @@ def import_running_only_events(data_root: str = "./data") -> pl.DataFrame:
     df = df.filter(~df.is_duplicated())
 
     df = df.sort(
-        "legality",
+        "event type",
         "sex",
         "distance",
         "event",

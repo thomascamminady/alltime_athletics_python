@@ -318,7 +318,7 @@ def pipe_convert_dates(df: pl.DataFrame) -> pl.DataFrame:
 def pipe_reorder_and_select_subset_of_columns(df: pl.DataFrame) -> pl.DataFrame:
     return df.select(
         "event",
-        "legality",
+        "event type",
         "distance",
         "sex",
         "rank",

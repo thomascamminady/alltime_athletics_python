@@ -503,6 +503,27 @@ test = ["pytest (<7.1)", "pytest-asyncio", "testpath"]
 test-extra = ["curio", "matplotlib (!=3.2.0)", "nbformat", "numpy (>=1.21)", "pandas", "pytest (<7.1)", "pytest-asyncio", "testpath", "trio"]
 
 [[package]]
+name = "ipywidgets"
+version = "8.0.6"
+description = "Jupyter interactive widgets"
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "ipywidgets-8.0.6-py3-none-any.whl", hash = "sha256:a60bf8d2528997e05ac83fd19ea2fbe65f2e79fbe1b2b35779bdfc46c2941dcc"},
+    {file = "ipywidgets-8.0.6.tar.gz", hash = "sha256:de7d779f2045d60de9f6c25f653fdae2dba57898e6a1284494b3ba20b6893bb8"},
+]
+
+[package.dependencies]
+ipykernel = ">=4.5.1"
+ipython = ">=6.1.0"
+jupyterlab-widgets = ">=3.0.7,<3.1.0"
+traitlets = ">=4.3.1"
+widgetsnbextension = ">=4.0.7,<4.1.0"
+
+[package.extras]
+test = ["ipykernel", "jsonschema", "pytest (>=3.6.0)", "pytest-cov", "pytz"]
+
+[[package]]
 name = "jedi"
 version = "0.18.2"
 description = "An autocompletion tool for Python that can be used for text editors."
@@ -562,6 +583,17 @@ traitlets = ">=5.3"
 [package.extras]
 docs = ["myst-parser", "sphinx-autodoc-typehints", "sphinxcontrib-github-alt", "sphinxcontrib-spelling", "traitlets"]
 test = ["ipykernel", "pre-commit", "pytest", "pytest-cov", "pytest-timeout"]
+
+[[package]]
+name = "jupyterlab-widgets"
+version = "3.0.7"
+description = "Jupyter interactive widgets for JupyterLab"
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "jupyterlab_widgets-3.0.7-py3-none-any.whl", hash = "sha256:c73f8370338ec19f1bec47254752d6505b03601cbd5a67e6a0b184532f73a459"},
+    {file = "jupyterlab_widgets-3.0.7.tar.gz", hash = "sha256:c3a50ed5bf528a0c7a869096503af54702f86dda1db469aee1c92dc0c01b43ca"},
+]
 
 [[package]]
 name = "lxml"
@@ -1555,7 +1587,18 @@ files = [
     {file = "webencodings-0.5.1.tar.gz", hash = "sha256:b36a1c245f2d304965eb4e0a82848379241dc04b865afcc4aab16748587e1923"},
 ]
 
+[[package]]
+name = "widgetsnbextension"
+version = "4.0.7"
+description = "Jupyter interactive widgets for Jupyter Notebook"
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "widgetsnbextension-4.0.7-py3-none-any.whl", hash = "sha256:be3228a73bbab189a16be2d4a3cd89ecbd4e31948bfdc64edac17dcdee3cd99c"},
+    {file = "widgetsnbextension-4.0.7.tar.gz", hash = "sha256:ea67c17a7cd4ae358f8f46c3b304c40698bc0423732e3f273321ee141232c8be"},
+]
+
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "a50514112b432650f9cf8b19bfeec5b9ee39e3f47fecbb7c56110f0975b85741"
+content-hash = "5a75179282e188b673e0623e4d087831bf9fb141ecd5543920c16ab19f3f7b13"
