@@ -9,19 +9,7 @@ Just give me the data
 The latest data frame can be found `here as a csv`_, or  here_ in parquet_ format.
 
 As an example, here are the women's world record performances, sorted by the date of the world record.
-You would get this table by using ``polars`` and running
 
-.. code-block:: python
-
-   (
-    df.filter(pl.col("rank") == 1)
-    .filter(pl.col("sex") == "female")
-    .select("event", "name", "result", "date of event")
-    .sort("date of event")
-    .to_pandas()
-    .to_markdown(tablefmt="grid")
-   )
-   
    
 
 +----+------------------------+---------------------------+----------+-----------------+
@@ -86,6 +74,20 @@ You would get this table by using ``polars`` and running
 | 28 | 5000 metres            | Faith Kipyegon            | 14:05.20 | 2023-06-09      |
 +----+------------------------+---------------------------+----------+-----------------+
 
+
+You would get this table by using ``polars`` and running
+
+.. code-block:: python
+
+   (
+    df.filter(pl.col("rank") == 1)
+    .filter(pl.col("sex") == "female")
+    .select("event", "name", "result", "date of event")
+    .sort("date of event")
+    .to_pandas()
+    .to_markdown(tablefmt="grid")
+   )
+   
 
 Download
 -------
