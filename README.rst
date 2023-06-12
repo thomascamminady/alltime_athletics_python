@@ -8,6 +8,8 @@ Just give me the data
 -------
 The latest data frame can be found `here as a csv`_, or  here_ in parquet_ format.
 
+Here are women's world record performances.
+
 +----+------------------------+---------------------------+----------+
 |    | event                  | name                      | result   |
 +====+========================+===========================+==========+
