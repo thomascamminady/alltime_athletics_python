@@ -55,10 +55,10 @@ The only functionality that this tool provides is to have an easier way to read 
 This package was created with Cookiecutter_ and `thomascamminady/cookiecutter-pypackage`_, a fork of the `audreyr/cookiecutter-pypackage`_ project template.
 
 ..  _`my blog`:  https://camminady.org/posts/world-records/world_records.html
-..  _`here as a csv`: https://github.com/thomascamminady/alltime_athletics_python/blob/main/dataframes/alltime_athletics_version_2023-06-06.csv
+..  _`here as a csv`: https://github.com/thomascamminady/alltime_athletics_python/blob/main/dataframes/alltime_athletics_version_2023-06-12.csv
 ..  _`Alltime Athletics`: http://www.alltime-athletics.com
 ..  _parquet: https://pandas.pydata.org/docs/reference/api/pandas.read_parquet.html
-..  _here: https://github.com/thomascamminady/alltime_athletics_python/blob/main/dataframes/alltime_athletics_version_2023-06-06.parquet
+..  _here: https://github.com/thomascamminady/alltime_athletics_python/blob/main/dataframes/alltime_athletics_version_2023-06-12.parquet
 ..  _PyPI: https://pypi.org/project/alltime-athletics-python/
 .. _Cookiecutter: https://github.com/audreyr/cookiecutter
 .. _`thomascamminady/cookiecutter-pypackage`: https://github.com/thomascamminady/cookiecutter-pypackage
