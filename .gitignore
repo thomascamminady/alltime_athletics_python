@@ -163,3 +163,5 @@ logs/
 data/
 alltime_athletics_python.code-workspace
 notebooks/
+dataframes/wr.ipynb
+dataframes/wr.rst
