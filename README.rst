@@ -82,7 +82,7 @@ You would get this table by using ``polars`` and running
    import polars as pl
 
    df = pl.read_csv(
-        "https://media.githubusercontent.com/media/thomascamminady/alltime_athletics_python/main/dataframes/alltime_athletics_version_2023-06-12.csv"
+        "https://media.githubusercontent.com/media/thomascamminady/alltime_athletics_python/main/dataframes/latest_version_alltime_athletics.csv"
    )
 
    (
