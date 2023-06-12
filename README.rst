@@ -2,6 +2,7 @@
 alltime_athletics_python
 ========================
 Scrapes Peter Larsson's website `Alltime Athletics`_.
+Check out `my blog`_ to see how this data can be visualized.
 
 Just give me the data
 -------
@@ -53,6 +54,7 @@ The only functionality that this tool provides is to have an easier way to read 
 
 This package was created with Cookiecutter_ and `thomascamminady/cookiecutter-pypackage`_, a fork of the `audreyr/cookiecutter-pypackage`_ project template.
 
+..  _`my blog`:  https://camminady.org/posts/world-records/world_records.html
 ..  _`here as a csv`: https://github.com/thomascamminady/alltime_athletics_python/blob/main/dataframes/alltime_athletics_version_2023-06-06.csv
 ..  _`Alltime Athletics`: http://www.alltime-athletics.com
 ..  _parquet: https://pandas.pydata.org/docs/reference/api/pandas.read_parquet.html
