@@ -6,7 +6,18 @@ Check out `my blog`_ to see how this data can be visualized.
 
 Just give me the data
 -------
-The latest data frame can be found `here as a csv`_, or  here_ in parquet_ format.
+The latest data frame can be found `here as a csv`_, or  here_ in parquet_ format. Or run
+
+.. code-block:: python
+
+   import pandas as pd
+
+   df = pd.read_csv(
+        "https://media.githubusercontent.com/media/thomascamminady/alltime_athletics_python/main/dataframes/latest_version_alltime_athletics.csv"
+   )
+
+
+
 
 As an example, here are the women's world record performances, sorted by the date of the world record.
 
