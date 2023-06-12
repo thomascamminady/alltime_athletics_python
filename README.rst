@@ -19,7 +19,7 @@ You would get this table by using ``polars`` and running
     .sort("date of event")
     .to_pandas()
     .to_markdown(tablefmt="grid")
-)
+    )
 
 +----+------------------------+---------------------------+----------+-----------------+
 |    | event                  | name                      | result   | date of event   |
