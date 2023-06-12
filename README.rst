@@ -10,6 +10,7 @@ The latest data frame can be found `here as a csv`_, or  here_ in parquet_ forma
 
 As an example, here are the women's world record performances, sorted by the date of the world record.
 You would get this table by using ``polars`` and running
+
 .. code-block:: python
 
    df.filter(pl.col("rank") == 1)
