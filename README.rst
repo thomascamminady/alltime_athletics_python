@@ -10,7 +10,7 @@ The latest data frame can be found `here as a csv`_, or  here_ in parquet_ forma
 
 As an example, here are the women's world record performances, sorted by the date of the world record.
 
-   
+
 
 +----+------------------------+---------------------------+----------+-----------------+
 |    | event                  | name                      | result   | date of event   |
@@ -84,14 +84,14 @@ You would get this table by using ``polars`` and running
    df = pl.read_csv(
         "https://media.githubusercontent.com/media/thomascamminady/alltime_athletics_python/main/dataframes/alltime_athletics_version_2023-06-12.csv"
    )
-   
+
    (
     df.filter(pl.col("rank") == 1)
     .filter(pl.col("sex") == "female")
     .select("event", "name", "result", "date of event")
     .sort("date of event")
    )
-   
+
 
 Download
 -------
@@ -139,10 +139,10 @@ The only functionality that this tool provides is to have an easier way to read 
 This package was created with Cookiecutter_ and `thomascamminady/cookiecutter-pypackage`_, a fork of the `audreyr/cookiecutter-pypackage`_ project template.
 
 ..  _`my blog`:  https://camminady.org/posts/world-records/world_records.html
-..  _`here as a csv`: https://github.com/thomascamminady/alltime_athletics_python/blob/main/dataframes/alltime_athletics_version_2023-06-12.csv
+..  _`here as a csv`: https://github.com/thomascamminady/alltime_athletics_python/blob/main/dataframes/latest_version_alltime_athletics.csv
 ..  _`Alltime Athletics`: http://www.alltime-athletics.com
 ..  _parquet: https://pandas.pydata.org/docs/reference/api/pandas.read_parquet.html
-..  _here: https://github.com/thomascamminady/alltime_athletics_python/blob/main/dataframes/alltime_athletics_version_2023-06-12.parquet
+..  _here: https://github.com/thomascamminady/alltime_athletics_python/blob/main/dataframes/latest_version_alltime_athletics_version.parquet
 ..  _PyPI: https://pypi.org/project/alltime-athletics-python/
 .. _Cookiecutter: https://github.com/audreyr/cookiecutter
 .. _`thomascamminady/cookiecutter-pypackage`: https://github.com/thomascamminady/cookiecutter-pypackage
