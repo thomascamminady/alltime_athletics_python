@@ -79,6 +79,12 @@ You would get this table by using ``polars`` and running
 
 .. code-block:: python
 
+   import polars as pl
+
+   df = pl.read_csv(
+        "https://media.githubusercontent.com/media/thomascamminady/alltime_athletics_python/main/dataframes/alltime_athletics_version_2023-06-12.csv"
+   )
+   
    (
     df.filter(pl.col("rank") == 1)
     .filter(pl.col("sex") == "female")
