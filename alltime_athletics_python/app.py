@@ -10,4 +10,5 @@ if __name__ == "__main__":
     df = import_running_only_events("./data")
     today = date.today()
     df.write_parquet(f"./dataframes/alltime_athletics_version_{today}.parquet")
-    df.write_csv(f"./dataframes/alltime_athletics_version_{today}.csv")
+    df.write_parquet("./dataframes/latest_alltime_athletics_version.parquet")
+    df.write_csv("./dataframes/latest_alltime_athletics_version.csv")
