@@ -90,8 +90,6 @@ You would get this table by using ``polars`` and running
     .filter(pl.col("sex") == "female")
     .select("event", "name", "result", "date of event")
     .sort("date of event")
-    .to_pandas()
-    .to_markdown(tablefmt="grid")
    )
    
 
