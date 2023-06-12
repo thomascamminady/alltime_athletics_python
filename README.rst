@@ -8,6 +8,7 @@ Just give me the data
 -------
 The latest data frame can be found `here as a csv`_, or  here_ in parquet_ format.
 
+Here's a tbale
 .. csv-table:: Table Title
    :file: https://media.githubusercontent.com/media/thomascamminady/alltime_athletics_python/main/dataframes/wr.csv
    :widths: 30, 70
