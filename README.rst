@@ -13,13 +13,13 @@ You would get this table by using ``polars`` and running
 .. code-block:: python
 
    (
-    df.filter(pl.col("rank") == 1)
-    .filter(pl.col("sex") == "female")
-    .select("event", "name", "result", "date of event")
-    .sort("date of event")
-    .to_pandas()
-    .to_markdown(tablefmt="grid")
-    )
+   df.filter(pl.col("rank") == 1)
+   .filter(pl.col("sex") == "female")
+   .select("event", "name", "result", "date of event")
+   .sort("date of event")
+   .to_pandas()
+   .to_markdown(tablefmt="grid")
+   )
 
 +----+------------------------+---------------------------+----------+-----------------+
 |    | event                  | name                      | result   | date of event   |
