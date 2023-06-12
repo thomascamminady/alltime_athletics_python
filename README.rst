@@ -142,7 +142,7 @@ This package was created with Cookiecutter_ and `thomascamminady/cookiecutter-py
 ..  _`here as a csv`: https://github.com/thomascamminady/alltime_athletics_python/blob/main/dataframes/latest_version_alltime_athletics.csv
 ..  _`Alltime Athletics`: http://www.alltime-athletics.com
 ..  _parquet: https://pandas.pydata.org/docs/reference/api/pandas.read_parquet.html
-..  _here: https://github.com/thomascamminady/alltime_athletics_python/blob/main/dataframes/latest_version_alltime_athletics_version.parquet
+..  _here: https://github.com/thomascamminady/alltime_athletics_python/blob/main/dataframes/latest_version_alltime_athletics.parquet
 ..  _PyPI: https://pypi.org/project/alltime-athletics-python/
 .. _Cookiecutter: https://github.com/audreyr/cookiecutter
 .. _`thomascamminady/cookiecutter-pypackage`: https://github.com/thomascamminady/cookiecutter-pypackage
