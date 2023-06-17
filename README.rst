@@ -19,7 +19,7 @@ The latest data frame can be found `here as a csv`_, or  here_ in parquet_ forma
 
 
 
-As an example, here are the women's world record performances, sorted by the date of the world record.
+As an example, here are the women's world record performances (as of 2023-06-12), sorted by the date of the world record.
 
 
 
