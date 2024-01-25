@@ -110,7 +110,7 @@ If you have cloned the source code, you can run
 
 .. code-block:: python
 
-   etry run python alltime_athletics_python/app.py
+   poetry run python alltime_athletics_python/app.py
 
 
 If you installed this package from PyPI_, run
