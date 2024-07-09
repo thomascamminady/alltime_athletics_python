@@ -1,4 +1,5 @@
 """Top-level package for alltime_athletics_python."""
+
 from alltime_athletics_python.utils.config import config
 from alltime_athletics_python.utils.logger import logger
 

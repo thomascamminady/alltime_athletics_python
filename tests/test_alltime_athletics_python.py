@@ -1,8 +1,9 @@
 """Tests for `alltime_athletics_python` package."""
+
 import polars as pl
 
-from alltime_athletics_python.io import import_running_only_events
 from alltime_athletics_python.events import event_list
+from alltime_athletics_python.io import import_running_only_events
 
 df = import_running_only_events("./data")
 

@@ -21,7 +21,9 @@ def pipe_get_event_distance(df: pl.DataFrame) -> pl.DataFrame:
         return d[event]
 
     return df.with_columns(  # get event distances
-        pl.col("event").apply(lambda e: distance_mapping(e)).alias("distance")
+        pl.col("event")
+        .map_elements(lambda e: distance_mapping(e), return_dtype=pl.Float64)
+        .alias("distance")
     )
 
 
@@ -46,7 +48,9 @@ def pipe_assign_sprint_middle_long_distance(df: pl.DataFrame) -> pl.DataFrame:
         return d[event]
 
     return df.with_columns(
-        pl.col("event").apply(lambda e: assign(e)).alias("distance type")
+        pl.col("event")
+        .map_elements(lambda e: assign(e), return_dtype=pl.Utf8)
+        .alias("distance type")
     )
 
 
@@ -56,7 +60,9 @@ def pipe_assign_has_hurdles_or_not(df: pl.DataFrame) -> pl.DataFrame:
         return d[event]
 
     return df.with_columns(
-        pl.col("event").apply(lambda e: assign(e)).alias("has hurdles")
+        pl.col("event")
+        .map_elements(lambda e: assign(e), return_dtype=pl.Boolean)
+        .alias("has hurdles")
     )
 
 
@@ -65,7 +71,11 @@ def pipe_assign_track_event_or_not(df: pl.DataFrame) -> pl.DataFrame:
         d = {event.name: event.is_track for event in event_list}
         return d[event]
 
-    return df.with_columns(pl.col("event").apply(lambda e: assign(e)).alias("on track"))
+    return df.with_columns(
+        pl.col("event")
+        .map_elements(lambda e: assign(e), return_dtype=pl.Boolean)
+        .alias("on track")
+    )
 
 
 def pipe_fix_issue_with_half_marathon_distance(df: pl.DataFrame) -> pl.DataFrame:
@@ -79,7 +89,7 @@ def pipe_fix_issue_with_half_marathon_distance(df: pl.DataFrame) -> pl.DataFrame
 
 def pipe_convert_time_to_seconds(df: pl.DataFrame) -> pl.DataFrame:
     def convert_time_to_seconds(time_string):
-        to_replace = ["A", "y", "+", "#", "a", "d", "´", "@", "p", "m", "*", "e"]
+        to_replace = ["A", "y", "+", "#", "a", "d", "´", "@", "p", "m", "*", "e", "X"]
         for r in to_replace:
             time_string = time_string.replace(r, "")
 
@@ -96,7 +106,9 @@ def pipe_convert_time_to_seconds(df: pl.DataFrame) -> pl.DataFrame:
             return float(time_parts[0])
 
     return df.with_columns(
-        pl.col("result").apply(convert_time_to_seconds).alias("result seconds")
+        pl.col("result")
+        .map_elements(convert_time_to_seconds, return_dtype=pl.Float64)
+        .alias("result seconds")
     )
 
 
@@ -108,12 +120,15 @@ def pipe_rename_columns_names_men(df: pl.DataFrame) -> pl.DataFrame:
     def decide_mapping_men(name, number_columns, mappings):
         if "200m hurdles" in name:
             return mappings[4]
-        if "300 metres" in name:
-            return mappings[5]
+        # if "300 metres" in name:
+        #     return mappings[5]
         if "half" in name:
             return mappings[2]
-        if "1500" in name or "400m hurdles" in name:
+        if "1500" in name:
             return mappings[3]
+        if "10000 meters track walk" in name:
+            return mappings[6]
+
         if number_columns == 12:
             return mappings[0]
 
@@ -183,11 +198,21 @@ def pipe_rename_columns_names_men(df: pl.DataFrame) -> pl.DataFrame:
                 "7": "location of event",
                 "8": "date of event",
             },
+            {
+                "0": "rank",
+                "1": "result",
+                "2": "name",
+                "3": "nationality",
+                "4": "date of birth",
+                "5": "rank in event",
+                "6": "location of event",
+                "7": "date of event",
+            },
         ]
 
     mappings = get_mappings_men()
-
-    return df.with_columns([pl.col(c).cast(str) for c in df.columns]).rename(
+    cols = [pl.col(c).cast(str) for c in df.columns]
+    return df.with_columns(cols).rename(
         mapping=decide_mapping_men(df["event"].unique()[0], len(df.columns), mappings)
     )
 
@@ -268,7 +293,7 @@ def pipe_assign_file_name(df: pl.DataFrame, file: str) -> pl.DataFrame:
 def pipe_drop_unwanted_columns(df: pl.DataFrame) -> pl.DataFrame:
     should_be_dropped = ["3", "valid", "", "7", "8", "9", "10"]
     columns = [c for c in should_be_dropped if c in df.columns]
-    return df.drop(columns=columns)
+    return df.drop(columns)
 
 
 def pipe_get_wr_strength_by_comparing_with_tenth(df: pl.DataFrame) -> pl.DataFrame:
@@ -284,6 +309,23 @@ def pipe_get_wr_strength_by_comparing_with_tenth(df: pl.DataFrame) -> pl.DataFra
 
 
 def pipe_convert_dates(df: pl.DataFrame) -> pl.DataFrame:
+    # fill missing entries with 01.01.1900
+    df = df.with_columns(
+        (
+            pl.when(pl.col("date of birth").str.split(".").list.len() == 0)
+            .then(pl.lit("01.01.1900"))
+            .otherwise(pl.col("date of birth"))
+        ).alias("date of birth")
+    )
+    # fill missing days / months with 01.01
+    df = df.with_columns(
+        (
+            pl.when(pl.col("date of birth").str.split(".").list.len() == 1)
+            .then("01.01." + pl.col("date of birth"))
+            .otherwise(pl.col("date of birth"))
+        ).alias("date of birth")
+    )
+
     # make sure that date of births like 01.01.10 are parsed as 01.01.2010
     return df.with_columns(
         pl.when(pl.col("date of birth").str.split(".").list[2].cast(int) < 10)
@@ -342,9 +384,9 @@ def pipe_reorder_and_select_subset_of_columns(df: pl.DataFrame) -> pl.DataFrame:
 
 def pipe_compute_age_at_event(df: pl.DataFrame) -> pl.DataFrame:
     return df.with_columns(
-        ((pl.col("date of event") - pl.col("date of birth")).dt.days() / 365).alias(
-            "age at event in years"
-        )
+        (
+            (pl.col("date of event") - pl.col("date of birth")).dt.total_days() / 365
+        ).alias("age at event in years")
     )
 
 
